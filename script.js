@@ -5,18 +5,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   const btnNo = document.querySelector("#btn-random");
 
-  function moverAleatoriamente(btn) {
-    // Se mueve dentro de la ventana (viewport)
-    btn.style.position = "fixed"; // mejor que absolute
-    btn.style.fontWeight = "bolder";
+ function moverAleatoriamente(btn) {
+  const container = document.querySelector(".container");
 
-    // rangos para que no se vaya fuera de pantalla
-    const maxTop = 85;
-    const maxLeft = 85;
+  const containerRect = container.getBoundingClientRect();
+  const btnRect = btn.getBoundingClientRect();
 
-    btn.style.top = Math.floor(Math.random() * maxTop + 5) + "vh";
-    btn.style.left = Math.floor(Math.random() * maxLeft + 5) + "vw";
-  }
+  const maxTop = container.clientHeight - btnRect.height;
+  const maxLeft = container.clientWidth - btnRect.width;
+
+  const randomTop = Math.random() * maxTop;
+  const randomLeft = Math.random() * maxLeft;
+
+  btn.style.position = "absolute";
+  btn.style.top = randomTop + "px";
+  btn.style.left = randomLeft + "px";
+}
 
   // Solo si existe el botón NO en esta página
   if (btnNo) {
