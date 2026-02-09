@@ -1,48 +1,50 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =========================
-     BOTÓN NO que se mueve
+     BOTÓN NO que se mueve (SOLO en el área de botones)
   ========================== */
 
   const btnNo = document.querySelector("#btn-random");
-  const container = document.querySelector(".container");
+  const area = document.querySelector("#btn-area"); // <- el div de botones
 
-  function moverDentroDelContainer(btn, cont) {
-    if (!btn || !cont) return;
+  function moverDentroDelArea(btn, area) {
+    if (!btn || !area) return;
 
-    // Asegura que el container sea referencia
+    // límites del área
+    const maxLeft = area.clientWidth - btn.offsetWidth;
+    const maxTop = area.clientHeight - btn.offsetHeight;
+
+    const padding = 6;
+
+    const left = Math.random() * Math.max(0, (maxLeft - padding * 2)) + padding;
+    const top = Math.random() * Math.max(0, (maxTop - padding * 2)) + padding;
+
     btn.style.position = "absolute";
-
-    const maxTop = cont.clientHeight - btn.offsetHeight;
-    const maxLeft = cont.clientWidth - btn.offsetWidth;
-
-    const padding = 10; // margen para que no toque bordes
-
-    const randomTop = Math.random() * (maxTop - padding);
-    const randomLeft = Math.random() * (maxLeft - padding);
-
-    btn.style.top = Math.max(padding, randomTop) + "px";
-    btn.style.left = Math.max(padding, randomLeft) + "px";
+    btn.style.left = left + "px";
+    btn.style.top = top + "px";
+    btn.style.transform = "none"; // evita desplazamientos raros
   }
 
-  if (btnNo && container) {
-    // Posición inicial visible
-    moverDentroDelContainer(btnNo, container);
+  if (btnNo && area) {
+    // posición inicial para que se vea
+    moverDentroDelArea(btnNo, area);
 
     btnNo.addEventListener("mouseenter", (e) => {
-      moverDentroDelContainer(e.target, container);
+      moverDentroDelArea(e.target, area);
     });
+
+    // opcional: evita que navegue al dar click
+    btnNo.addEventListener("click", (e) => e.preventDefault());
   }
 
 
   /* =========================
-     CORAZONES flotando
+     CORAZONES flotando (solo si existe .hearts)
   ========================== */
 
   const heartsContainer = document.querySelector(".hearts");
 
   if (heartsContainer) {
-
     function createHeart() {
       const heart = document.createElement("div");
       heart.className = "heart";
@@ -53,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
       heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
 
       heartsContainer.appendChild(heart);
-
       setTimeout(() => heart.remove(), 5000);
     }
 
@@ -61,4 +62,3 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
-
