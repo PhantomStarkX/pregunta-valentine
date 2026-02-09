@@ -206,13 +206,16 @@ p::after{
   100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
 }
 
-/* Campo donde vive el NO (solo en el área de botones) */
 #btn-area{
   position: relative;
-  height: 90px;          /* espacio para moverse */
+  height: 90px;
   width: 100%;
   max-width: 320px;
   margin: 18px auto 0;
+
+  display: flex;              /* vuelve a flex */
+  justify-content: center;
+  align-items: center;
 }
 
 /* Botón NO visible desde el inicio y movible dentro del campo */
