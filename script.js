@@ -1,58 +1,64 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // =========================
-  // BOTÓN NO que se mueve
-  // =========================
-  const btnNo = document.querySelector("#btn-random");
+  /* =========================
+     BOTÓN NO que se mueve
+  ========================== */
 
- function moverAleatoriamente(btn) {
+  const btnNo = document.querySelector("#btn-random");
   const container = document.querySelector(".container");
 
-  const containerRect = container.getBoundingClientRect();
-  const btnRect = btn.getBoundingClientRect();
+  function moverDentroDelContainer(btn, cont) {
+    if (!btn || !cont) return;
 
-  const maxTop = container.clientHeight - btnRect.height;
-  const maxLeft = container.clientWidth - btnRect.width;
+    // Asegura que el container sea referencia
+    btn.style.position = "absolute";
 
-  const randomTop = Math.random() * maxTop;
-  const randomLeft = Math.random() * maxLeft;
+    const maxTop = cont.clientHeight - btn.offsetHeight;
+    const maxLeft = cont.clientWidth - btn.offsetWidth;
 
-  btn.style.position = "absolute";
-  btn.style.top = randomTop + "px";
-  btn.style.left = randomLeft + "px";
-}
+    const padding = 10; // margen para que no toque bordes
 
-  // Solo si existe el botón NO en esta página
-  if (btnNo) {
+    const randomTop = Math.random() * (maxTop - padding);
+    const randomLeft = Math.random() * (maxLeft - padding);
+
+    btn.style.top = Math.max(padding, randomTop) + "px";
+    btn.style.left = Math.max(padding, randomLeft) + "px";
+  }
+
+  if (btnNo && container) {
+    // Posición inicial visible
+    moverDentroDelContainer(btnNo, container);
+
     btnNo.addEventListener("mouseenter", (e) => {
-      moverAleatoriamente(e.target);
+      moverDentroDelContainer(e.target, container);
     });
   }
 
-  // =========================
-  // CORAZONES flotando
-  // =========================
+
+  /* =========================
+     CORAZONES flotando
+  ========================== */
+
   const heartsContainer = document.querySelector(".hearts");
 
-  function createHeart() {
-    if (!heartsContainer) return; // si no existe, no hace nada
-
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.textContent = "❤️";
-
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 18 + 14) + "px";
-    heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-
-    heartsContainer.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 5000);
-  }
-
-  // Solo si existe el contenedor de corazones
   if (heartsContainer) {
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤️";
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 18 + 14) + "px";
+      heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+
+      heartsContainer.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 5000);
+    }
+
     setInterval(createHeart, 250);
   }
 
 });
+
