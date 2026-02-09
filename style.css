@@ -235,3 +235,11 @@ p::after{
   transform: translate(-50%, -50%);
   z-index: 10;
 }
+
+/* Evita que el botón SI se estire */
+#btn-area a[href="si.html"]{
+  position: relative;
+  height: auto;
+  padding: 12px 22px;
+  align-self: center;
+}
