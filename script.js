@@ -1,43 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-  /* =========================
-     BOTÓN NO que se mueve (SOLO en el área de botones)
-  ========================== */
-
   const btnNo = document.querySelector("#btn-random");
-  const area = document.querySelector("#btn-area"); // <- el div de botones
+  const area = document.querySelector("#btn-area");
 
-  function moverDentroDelArea(btn, area) {
-    if (!btn || !area) return;
+  if (!btnNo || !area) return;
 
-    // límites del área
-    const maxLeft = area.clientWidth - btn.offsetWidth;
-    const maxTop = area.clientHeight - btn.offsetHeight;
+  function moverDentroDelArea() {
+    const maxLeft = area.clientWidth - btnNo.offsetWidth;
+    const maxTop = area.clientHeight - btnNo.offsetHeight;
+    const padding = 8;
 
-    const padding = 6;
+    const left = Math.random() * Math.max(0, maxLeft - padding * 2) + padding;
+    const top = Math.random() * Math.max(0, maxTop - padding * 2) + padding;
 
-    const left = Math.random() * Math.max(0, (maxLeft - padding * 2)) + padding;
-    const top = Math.random() * Math.max(0, (maxTop - padding * 2)) + padding;
-
-    btn.style.position = "absolute";
-    btn.style.left = left + "px";
-    btn.style.top = top + "px";
-    btn.style.transform = "none"; // evita desplazamientos raros
+    btnNo.style.left = left + "px";
+    btnNo.style.top = top + "px";
+    btnNo.style.transform = "none";
   }
 
-  if (btnNo && area) {
-    // posición inicial para que se vea
-    moverDentroDelArea(btnNo, area);
+  // ✅ Posición inicial garantizada
+  moverDentroDelArea();
 
-    btnNo.addEventListener("mouseenter", (e) => {
-      moverDentroDelArea(e.target, area);
-    });
+  // ✅ Huye al pasar el mouse
+  btnNo.addEventListener("mouseenter", moverDentroDelArea);
 
-    // opcional: evita que navegue al dar click
-    btnNo.addEventListener("click", (e) => e.preventDefault());
-  }
-
-
+  // ✅ Evita que al click te mande arriba
+  btnNo.addEventListener("click", (e) => e.preventDefault());
+  
   /* =========================
      CORAZONES flotando (solo si existe .hearts)
   ========================== */
